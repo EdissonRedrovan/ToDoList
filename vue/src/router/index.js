@@ -1,11 +1,12 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginComponent from '../components/LoginComponent.vue';
+import HomeComponent from '../components/HomeComponent.vue';
 import DashboardComponent from '../components/DashboardComponent.vue';
 import store from '../store';
 
 const routes = [
-  { path: '/', component: LoginComponent },
+  { path: '/', component: HomeComponent },
   { path: '/login', component: LoginComponent },
   {
     path: '/dashboard',

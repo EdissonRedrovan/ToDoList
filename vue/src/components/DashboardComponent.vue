@@ -1,21 +1,27 @@
-<!-- src/components/DashboardComponent.vue -->
 <template>
-  <div class="todo-list">
-    <h1>Lista de Tareas</h1>
-    <input v-model="newTask" placeholder="Agregar una nueva tarea" maxlength="50" />
-    <button @click="addTask">Agregar</button>
+  <div class="dashboard-container">
+    <header class="dashboard-header">
+      <h1>Lista de Tareas</h1>
+      <button @click="logout" class="logout-button">
+        <font-awesome-icon :icon="['fas', 'sign-out-alt']" /> Logout
+      </button>
+    </header>
+    <div class="todo-list">
+      <input v-model="newTask" placeholder="Agregar una nueva tarea" maxlength="50" />
+      <button @click="addTask">Agregar</button>
 
-    <ul>
-      <li v-for="task in tasks" :key="task.id">
-        <span :class="{ completed: task.completed }">{{ task.name }}</span>
-        <button @click="toggleTask(task)" class="icon-button">
-          <font-awesome-icon :icon="['fas', 'check']" />
-        </button>
-        <button @click="deleteTask(task.id)" class="icon-button">
-          <font-awesome-icon :icon="['fas', 'trash']" />
-        </button>
-      </li>
-    </ul>
+      <ul>
+        <li v-for="task in tasks" :key="task.id">
+          <span :class="{ completed: task.completed }">{{ task.name }}</span>
+          <button @click="toggleTask(task)" class="icon-button">
+            <font-awesome-icon :icon="['fas', 'check']" />
+          </button>
+          <button @click="deleteTask(task.id)" class="icon-button">
+            <font-awesome-icon :icon="['fas', 'trash']" />
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -25,17 +31,13 @@ export default {
   data() {
     return {
       newTask: '',
-      tasks: [
-        /*{ id: 1, name: 'Tarea 1', completed: false },
-        { id: 2, name: 'Tarea 2', completed: false },
-        { id: 3, name: 'Tarea 3', completed: false }*/
-      ]  // Datos quemados para las tareas
+      tasks: [],
     };
   },
   methods: {
     async fetchTasks() {
       try {
-        const response = await axios.get('http://localhost:8081/tasks/all'); // Cambia esta URL según tu configuración
+        const response = await axios.get('http://localhost:8081/tasks/all');
         this.tasks = response.data.tasks;
       } catch (error) {
         console.error('Error al obtener las tareas:', error);
@@ -44,7 +46,7 @@ export default {
     async addTask() {
       if (!this.newTask) return;
       try {
-        const response = await axios.post('http://localhost:8081/tasks', {name: this.newTask, completed:false },{ 
+        const response = await axios.post('http://localhost:8081/tasks', { name: this.newTask, completed: false }, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -54,11 +56,6 @@ export default {
       } catch (error) {
         console.error('Error al agregar la tarea:', error);
       }
-
-      // Agregando tarea con datos quemados
-      /*const newId = this.tasks.length + 1;
-      this.tasks.push({ id: newId, name: this.newTask, completed: false });
-      this.newTask = '';*/
     },
     async toggleTask(task) {
       try {
@@ -70,21 +67,17 @@ export default {
       } catch (error) {
         console.error('Error al actualizar la tarea:', error);
       }
-
-      // Actualizando el estado de la tarea localmente
-      //task.completed = !task.completed;
     },
     async deleteTask(taskId) {
-      // Se comenta el llamado al servicio
       try {
         await axios.delete(`http://localhost:8081/tasks/${taskId}`);
         this.tasks = this.tasks.filter(task => task.id !== taskId);
       } catch (error) {
         console.error('Error al eliminar la tarea:', error);
       }
-
-      // Eliminando la tarea localmente
-      this.tasks = this.tasks.filter(task => task.id !== taskId);
+    },
+    logout() {
+      this.$router.push('/'); // Redirige al HomeComponent
     }
   },
   mounted() {
@@ -94,6 +87,33 @@ export default {
 </script>
 
 <style scoped>
+.dashboard-container {
+  background-color: #f2f8f5;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logout-button {
+  background-color: transparent;
+  border: none;
+  color: #42b983;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.logout-button:hover {
+  color: #35916e;
+}
+
 .todo-list {
   max-width: 600px;
   margin: 0 auto;

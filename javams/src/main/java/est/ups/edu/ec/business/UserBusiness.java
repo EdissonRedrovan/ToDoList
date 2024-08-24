@@ -47,6 +47,7 @@ public class UserBusiness {
         }catch (Exception e){
             frameOutResponse.setCode("99");
             frameOutResponse.setMessage("ERROR AL REGISTRAR USUARIO");
+            e.printStackTrace();
             return frameOutResponse;
         }
 

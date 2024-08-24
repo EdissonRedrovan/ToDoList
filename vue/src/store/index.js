@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 const store = createStore({
   state() {
     return {
-      isAuthenticated: false
+      isAuthenticated: localStorage.getItem("userEmail") !== undefined  && localStorage.getItem("userEmail") !== null ? true : false
     };
   },
   mutations: {

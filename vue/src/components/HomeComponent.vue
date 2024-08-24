@@ -24,7 +24,7 @@
       </div>
     </main>
     <footer class="footer">
-      <p>© 2023 Tu Empresa. Todos los derechos reservados.</p>
+      <p>© 2024 ToDoList. Todos los derechos reservados.</p>
       <p><a href="#">Términos de Uso</a> | <a href="#">Política de Privacidad</a></p>
     </footer>
   </div>
